@@ -1,81 +1,69 @@
-
-
 <h4>Flop Reviews</h4>
 
 <h5>My Reviews</h5>
 
 <ul class="list-unstyled">
-  <li *ngFor="let review of reviews"
-    class="bg-dark text-light p-1 pl-3 rounded mb-2 d-flex justify-content-between"
-    style="cursor:pointer"
-    
-    (click)="editReview(review)"
-  >
+	<li *ngFor="let review of reviews" class="bg-dark text-light p-1 pl-3 rounded mb-2 d-flex justify-content-between"
+		style="cursor:pointer" (click)="editReview(review, reviewForm.form)">
 
-    <span>{{review.flop}}</span>
-    <div>
-    <i *ngFor="let number of numbers | slice:0:review.stars" class="material-icons">star</i>
-    </div>
-  </li>
+		<span>{{review.flop}}</span>
+		<div>
+			<i (click)="editReview(review, reviewForm.form)" *ngFor="let number of numbers | slice:0:review.stars" class="material-icons">star</i>
+		</div>
+	</li>
 </ul>
 <!-- don't show the form unless you're creating a new review or editing a review -->
-<form autocomplete="off"
-  
->
-
-  <div class="form-group">
-    <select id="flopselect" class="mb-2" name="flop"  >
-      <!-- set the value -->
-      <option *ngFor="let flop of flopList" value="">{{flop.title}}</option>
+<form autocomplete="off" #reviewForm="ngForm" (ngSubmit)="submitForm(reviewForm.form, flopMod, starsMod, revMod)">
+	<div *ngIf="editStatus">
+		<div class="form-group">
+			<select [(ngModel)]="model.flop" #flopMod="ngModel" required id="flopSelect" class="mb-2" name="flop" >
+      <option *ngFor="let flop of flopList" value="{{flop.title}}">{{flop.title}}</option>
     </select>
-  </div>
+			<span *ngIf="flopMod.touched && invalidStatus">Flop title Required</span>
+		</div>
+		<div *ngIf="model">
+			<div class="form-group">
+				<label for="">Stars</label>
+				<div style="display:flex; justify-content: space-between; width:100px">
+					<div>
+						<input [(ngModel)]="model.stars" #starsMod="ngModel" required type="radio" name="stars" id="star1" [value]="1"><br>
+						<label for="star1">1</label>
+					</div>
+					<div>
+						<input [(ngModel)]="model.stars" #starsMod="ngModel" required type="radio" name="stars" id="star2" [value]="2"><br>
+						<label for="star2">2</label>
+					</div>
+					<div>
+						<input [(ngModel)]="model.stars" #starsMod="ngModel" required type="radio" name="stars" id="star3" [value]="3"><br>
+						<label for="star3">3</label>
+					</div>
+					<div>
+						<input [(ngModel)]="model.stars" #starsMod="ngModel" required type="radio" name="stars" id="star4" [value]="4"><br>
+						<label for="star4">4</label>
+					</div>
+					<div>
+						<input [(ngModel)]="model.stars" #starsMod="ngModel" required type="radio" name="stars" id="star5" [value]="5"><br>
+						<label for="star5">5</label>
+					</div>
+				</div>
+				<span *ngIf="starsMod.touched && invalidStatus">Flop Stars Required</span>
+			</div>
 
-  <div class="form-group">
-    <label for="">Stars</label>
-
-      <div style="display:flex; justify-content: space-between; width:100px">
-        <div>
-          <input  type="radio" name="stars" id="star1" [value]="1"><br>
-          <label for="star1">1</label>
-        </div>
-        <div>
-          <input  type="radio" name="stars" id="star2" [value]="2"><br>
-          <label for="star2">2</label>
-        </div>
-        <div>
-          <input  type="radio" name="stars" id="star3" [value]="3"><br>
-          <label for="star3">3</label>
-        </div>
-        <div>
-          <input  type="radio" name="stars" id="star4" [value]="4"><br>
-          <label for="star4">4</label>
-        </div>
-        <div>
-          <input  type="radio" name="stars" id="star5" [value]="5"><br>
-          <label for="star5">5</label>
-        </div>
-      </div>
-  </div>
-
-
-
-  
-  <div class="form-group">
-    <label for="review">Review
+			<div class="form-group">
+				<label for="review">Review
     </label>
-    <textarea name="review" rows="5"
+				<textarea [(ngModel)]="model.review" #revMod="ngModel" required name="review" rows="5"
       type="text" class="form-control" id="flopname"></textarea>
-  </div>
+				<span *ngIf="revMod.touched && invalidStatus">Review of 30 letters minimum required</span>
+			</div>
+		</div>
+	</div>
 
-
-  
-
-  <button type="submit" class="btn btn-primary mr-1">Save</button>
-  <button type="button" class="btn btn-danger"
-  (click)="cancel()"
+	<button *ngIf="editStatus" type="submit" class="btn btn-primary mr-1">Save</button>
+	<button *ngIf="editStatus" type="button" class="btn btn-danger"
+  (click)="cancel(reviewForm.form)"
   >Cancel</button>
 </form>
 
 <!-- only show this button when the form isn't visible -->
-<button type="button" class="btn btn-info"
-  >New Review</button>
+<button *ngIf="!editStatus" (click)="newReview()"type="button" class="btn btn-info">New Review</button>
