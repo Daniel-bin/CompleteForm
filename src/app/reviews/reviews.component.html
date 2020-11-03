@@ -13,48 +13,48 @@
 	</li>
 </ul>
 <!-- don't show the form unless you're creating a new review or editing a review -->
-<form autocomplete="off" #reviewForm="ngForm" (ngSubmit)="submitForm(reviewForm.form, flopMod, starsMod, revMod)">
+<form autocomplete="off" #reviewForm="ngForm" (ngSubmit)="submitForm(reviewForm.form)">
 	<div *ngIf="editStatus">
 		<div class="form-group">
-			<select [(ngModel)]="model.flop" #flopMod="ngModel" required id="flopSelect" class="mb-2" name="flop" >
+			<select required #flopModel ="ngModel" [(ngModel)]="model.flop" id="flopSelect" class="mb-2" name="flop" >
       <option *ngFor="let flop of flopList" value="{{flop.title}}">{{flop.title}}</option>
     </select>
-			<span *ngIf="flopMod.touched && invalidStatus">Flop title Required</span>
+			<span *ngIf="flopModel.invalid && invalidStatus">Error</span>
 		</div>
 		<div *ngIf="model">
 			<div class="form-group">
 				<label for="">Stars</label>
 				<div style="display:flex; justify-content: space-between; width:100px">
 					<div>
-						<input [(ngModel)]="model.stars" #starsMod="ngModel" required type="radio" name="stars" id="star1" [value]="1"><br>
+						<input #starsModel="ngModel" [(ngModel)]="model.stars"  required type="radio" name="stars" id="star1" [value]="1"><br>
 						<label for="star1">1</label>
 					</div>
 					<div>
-						<input [(ngModel)]="model.stars" #starsMod="ngModel" required type="radio" name="stars" id="star2" [value]="2"><br>
+						<input #starsModel="ngModel" [(ngModel)]="model.stars"  required type="radio" name="stars" id="star2" [value]="2"><br>
 						<label for="star2">2</label>
 					</div>
 					<div>
-						<input [(ngModel)]="model.stars" #starsMod="ngModel" required type="radio" name="stars" id="star3" [value]="3"><br>
+						<input #starsModel="ngModel" [(ngModel)]="model.stars" required type="radio" name="stars" id="star3" [value]="3"><br>
 						<label for="star3">3</label>
 					</div>
 					<div>
-						<input [(ngModel)]="model.stars" #starsMod="ngModel" required type="radio" name="stars" id="star4" [value]="4"><br>
+						<input #starsModel="ngModel" [(ngModel)]="model.stars"  required type="radio" name="stars" id="star4" [value]="4"><br>
 						<label for="star4">4</label>
 					</div>
 					<div>
-						<input [(ngModel)]="model.stars" #starsMod="ngModel" required type="radio" name="stars" id="star5" [value]="5"><br>
+						<input #starsModel="ngModel" [(ngModel)]="model.stars"  required type="radio" name="stars" id="star5" [value]="5"><br>
 						<label for="star5">5</label>
 					</div>
 				</div>
-				<span *ngIf="starsMod.touched && invalidStatus">Flop Stars Required</span>
 			</div>
+			<span *ngIf="starsModel.invalid && invalidStatus">Error</span>
 
 			<div class="form-group">
 				<label for="review">Review
     </label>
-				<textarea [(ngModel)]="model.review" #revMod="ngModel" required name="review" rows="5"
+				<textarea required [(ngModel)]="model.review" #reviewModel="ngModel" name="review" rows="5"
       type="text" class="form-control" id="flopname"></textarea>
-				<span *ngIf="revMod.touched && invalidStatus">Review of 30 letters minimum required</span>
+				<span *ngIf="reviewModel.invalid && invalidStatus">Error</span>
 			</div>
 		</div>
 	</div>

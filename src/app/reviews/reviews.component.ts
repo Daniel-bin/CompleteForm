@@ -78,10 +78,10 @@ export class ReviewsComponent {
     form.markAsUntouched();
   }
 
-  submitForm(form, flopStatus, starStatus, revStatus) {
-    console.log("flopStatus");
-    if (flopStatus.invalid || starStatus.invalid || revStatus.invalid) {
+  submitForm(form) {
+    if (!form.valid) {
       this.invalidStatus = true;
+      console.log("invalid");
     } else {
       this.invalidStatus = false;
     }
