@@ -1,0 +1,81 @@
+
+
+<h4>Flop Reviews</h4>
+
+<h5>My Reviews</h5>
+
+<ul class="list-unstyled">
+  <li *ngFor="let review of reviews"
+    class="bg-dark text-light p-1 pl-3 rounded mb-2 d-flex justify-content-between"
+    style="cursor:pointer"
+    
+    (click)="editReview(review)"
+  >
+
+    <span>{{review.flop}}</span>
+    <div>
+    <i *ngFor="let number of numbers | slice:0:review.stars" class="material-icons">star</i>
+    </div>
+  </li>
+</ul>
+<!-- don't show the form unless you're creating a new review or editing a review -->
+<form autocomplete="off"
+  
+>
+
+  <div class="form-group">
+    <select id="flopselect" class="mb-2" name="flop"  >
+      <!-- set the value -->
+      <option *ngFor="let flop of flopList" value="">{{flop.title}}</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="">Stars</label>
+
+      <div style="display:flex; justify-content: space-between; width:100px">
+        <div>
+          <input  type="radio" name="stars" id="star1" [value]="1"><br>
+          <label for="star1">1</label>
+        </div>
+        <div>
+          <input  type="radio" name="stars" id="star2" [value]="2"><br>
+          <label for="star2">2</label>
+        </div>
+        <div>
+          <input  type="radio" name="stars" id="star3" [value]="3"><br>
+          <label for="star3">3</label>
+        </div>
+        <div>
+          <input  type="radio" name="stars" id="star4" [value]="4"><br>
+          <label for="star4">4</label>
+        </div>
+        <div>
+          <input  type="radio" name="stars" id="star5" [value]="5"><br>
+          <label for="star5">5</label>
+        </div>
+      </div>
+  </div>
+
+
+
+  
+  <div class="form-group">
+    <label for="review">Review
+    </label>
+    <textarea name="review" rows="5"
+      type="text" class="form-control" id="flopname"></textarea>
+  </div>
+
+
+  
+
+  <button type="submit" class="btn btn-primary mr-1">Save</button>
+  <button type="button" class="btn btn-danger"
+  (click)="cancel()"
+  >Cancel</button>
+</form>
+
+<!-- only show this button when the form isn't visible -->
+<button type="button" class="btn btn-info"
+  >New Review</button>
